@@ -43,6 +43,9 @@ public class TypeScriptAngularClientOptionsTest extends AbstractOptionsTest {
         verify(clientCodegen).setSortParamsByRequiredFlag(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SORT_PARAMS_VALUE));
         verify(clientCodegen).setModelPropertyNaming(TypeScriptAngularClientOptionsProvider.MODEL_PROPERTY_NAMING_VALUE);
         verify(clientCodegen).setSupportsES6(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.SUPPORTS_ES6_VALUE));
+        // verify enum suffix option
+        // added to test fix for issue #6675
+        verify(clientCodegen).setEnumSuffix(TypeScriptAngularClientOptionsProvider.ENUM_NAME_SUFFIX);
         verify(clientCodegen).setStringEnums(Boolean.parseBoolean(TypeScriptAngularClientOptionsProvider.STRING_ENUMS_VALUE));
         verify(clientCodegen).setPrependFormOrBodyParameters(Boolean.valueOf(TypeScriptAngularClientOptionsProvider.PREPEND_FORM_OR_BODY_PARAMETERS_VALUE));
         verify(clientCodegen).setQueryParamObjectFormat(TypeScriptAngularClientOptionsProvider.QUERY_PARAM_OBJECT_FORMAT_VALUE);

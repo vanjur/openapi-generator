@@ -204,6 +204,7 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
 
         if (additionalProperties.containsKey(CodegenConstants.ENUM_NAME_SUFFIX)) {
+            //changed to use new method setEnumSuffix, and put enumNameSuffix in additionalProperties
             setEnumSuffix(additionalProperties.get(CodegenConstants.ENUM_NAME_SUFFIX).toString());
             additionalProperties.put("enumNameSuffix", getEnumSuffix());
         }
@@ -364,6 +365,13 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         return name;
     }
 
+    /*
+    * Add prefix and suffix to model name
+	* @param name (the final String model name)
+    * @return String (the Typescript corrected model name with the added prefix and suffix)
+	*
+	* Includes fix for issue #10957
+    */
     @Override
     public String toModelName(final String name) {
         String fullModelName = name;
@@ -710,17 +718,39 @@ public abstract class AbstractTypeScriptClientCodegen extends DefaultCodegen imp
         }
     }
 
+    /*
+    * Add suffix to enum name
+	* @param property (the CodegenProperty including the current enum name)
+    * @return String (the Typescript corrected version of the enum name with the suffix)
+	*
+	* Includes fix for issue #10957
+    */
     @Override
     public String toEnumName(CodegenProperty property) {
         String enumName = property.name;
+        //change from enumName = addSuffix(enumName, enumSuffix); in case that method is causing an error
         enumName = enumName + enumSuffix;
         return toTypescriptTypeName(enumName, "_");
     }
 
+    /*
+    * Set suffix for Enums
+	* @param suffix (the String suffix to add to Enum names)
+    * @return void
+	*
+	* Includes fix for issue #10957
+    */
     public void setEnumSuffix(String suffix) {
         enumSuffix = suffix;
     }
-
+    
+    /*
+    * Get current suffix for Enums
+	* @param (none)
+    * @return String (current Enum suffix)
+	*
+	* Includes fix for issue #10957
+    */
     public String getEnumSuffix() {
         return enumSuffix;
     }

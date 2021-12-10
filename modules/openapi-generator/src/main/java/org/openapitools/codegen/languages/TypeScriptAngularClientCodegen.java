@@ -62,6 +62,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     public static final String SERVICE_FILE_SUFFIX = "serviceFileSuffix";
     public static final String MODEL_SUFFIX = "modelSuffix";
     public static final String MODEL_FILE_SUFFIX = "modelFileSuffix";
+    //var to add enum suffix as cli option. may not need this since it's in the parent class
     //public static final String ENUM_NAME_SUFFIX = "enumNameSuffix";
     public static final String FILE_NAMING = "fileNaming";
     public static final String STRING_ENUMS = "stringEnums";
@@ -75,6 +76,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
     protected String serviceFileSuffix = ".service";
     protected String modelSuffix = "";
     protected String modelFileSuffix = "";
+    //vars to help add enum suffix as cli option. may not need this since it's in the parent class
     //protected String enumNameSuffix = super.enumSuffix;
     //protected String enumValueSuffix = "Enum";
 
@@ -134,6 +136,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         this.cliOptions.add(new CliOption(MODEL_FILE_SUFFIX, "The suffix of the file of the generated model (model<suffix>.ts)."));
         this.cliOptions.add(new CliOption(FILE_NAMING, "Naming convention for the output files: 'camelCase', 'kebab-case'.").defaultValue(this.fileNaming));
         this.cliOptions.add(new CliOption(STRING_ENUMS, STRING_ENUMS_DESC).defaultValue(String.valueOf(this.stringEnums)));
+        //add enum suffix as cli option. may not need this since it's in the parent class
         //this.cliOptions.add(new CliOption(ENUM_NAME_SUFFIX, "Suffix for Enums").defaultValue(this.enumNameSuffix));
         this.cliOptions.add(new CliOption(QUERY_PARAM_OBJECT_FORMAT, "The format for query param objects: 'dot', 'json', 'key'.").defaultValue(this.queryParamObjectFormat.name()));
     }
@@ -285,6 +288,7 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
             modelFileSuffix = additionalProperties.get(MODEL_FILE_SUFFIX).toString();
             validateFileSuffixArgument("Model", modelFileSuffix);
         }
+        //If enumNameSuffix is inputted as an additional property, process it. May not need this since it's in parent class
         //if (additionalProperties.containsKey(ENUM_NAME_SUFFIX)) {
         //    super.enumSuffix = additionalProperties.get(ENUM_NAME_SUFFIX).toString();
         //    validateClassSuffixArgument("Enum", super.enumSuffix);
@@ -698,6 +702,13 @@ public class TypeScriptAngularClientCodegen extends AbstractTypeScriptClientCode
         return result;
     }
 
+    /*
+     * Remove enum suffix from Enums
+	 * @param name (the String name to remove the enum suffix from)
+	 * @return String result (the Enum name without the suffix)
+	 *
+	 * Includes fix for issue #10957
+     */
     /**public String removeEnumSuffix(String name) {
         String result = name;
         if (enumNameSuffix.length() > 0 && result.endsWith(enumNameSuffix)) {
